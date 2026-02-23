@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Hs dg expert solutions </title>
+        <style>
+            *{
+                margin:0;
+                padding:0;
+                box-sizing:border-box ;
+                font-family:Arial, sans-serif ;
+
+            }
+            .topbar{
+                background-color: rgb(4, 112, 69);
+                color: aliceblue;
+                text-align:center ;
+        
+            }
+            .navbar{
+                background-color: rgb(194, 227, 132);
+                display: flex;
+                color: whitesmoke;
+                text-align: center;
+                justify-content: space-between;
+                align-items: center;
+            }
+            .logo{
+               
+                font-size: 22px;
+                font-weight: bold;
+                color: red;
+            }
+            .menu-line{
+                display:flex;
+                gap: 30px;
+
+
+
+            }
+            .dropdown{
+                position: relative;
+                cursor: pointer;
+            }
+            .dropdown>div:first-child{
+                font-weight: bold;
+            }
+            .dropdown-content{
+                display: none;
+                position: absolute;
+                top: 25;
+                left:0;
+                background-color: white;
+                min-width: 150px;
+                box-shadow:0 5px 10px rgba(0,0,0,0.2);
+                
+            }
+            .dropdown-content div{
+                padding: 10px;
+                white-space:  nowrap;
+                color: black;
+            }
+            .dropdown-content div:hover{
+                background: #eee;
+            }
+            .dropdown:hover .dropdown-content{
+                display:block;
+            }
+            .hero{
+                color: aqua;
+            }
+            
+        </style> 
+    </head>
+    <body>
+        <div class="topbar">
+            50% doscout on all packages 
+        </div>
+
+        <div  class="navbar" >
+            <div class="logo"> RoyalTag</div>
+            <div class="menu-line">
+                <div class="dropdown">
+                    <div>new arivals</div>
+                    <div class="dropdown-content">
+                        <div>polo-shirt</div>
+                        <div>t_shirt</div>
+                        <div>chino</div>
+                    </div>  
+                </div>
+
+                <div class="dropdown">
+                    <div>suit and coat</div>
+                    <div class="dropdown-content">
+                        <div>casual coat</div>
+                        <div>2 piece</div>
+                        <div>3 piece</div>
+                    </div>  
+                </div>
+
+                <div class="dropdown">
+                    <div>dress shirt and pants </div>
+                    <div class="dropdown-content">
+                        <div>casual shirt</div>
+                        <div>dressshirt</div>
+                        <div>jeans</div>
+                    </div>  
+                </div>
+
+                <div class="dropdown">
+                    <div>accessories</div>
+                    <div class="dropdown-content">
+                        <div>belt</div>
+                        <div>undergarments</div>
+                        <div>watches</div>
+                    </div>  
+                </div>
+
+                <div class="dropdown">
+                    <div>tehwaar</div>
+                    <div class="dropdown-content">
+                        <div>eid</div>
+                        <div>14 august</div>
+                        <div>6 september</div>
+                    </div>  
+                </div>  
+            </div>
+        </div>
+        <div class="hero">
+            <div class=" hero-content">
+                <h1>the heritage summer</h1>
+                <p>new arrivals</p>
+            </div>
+
+        </div>
+
+    </body>
+</html>
