@@ -16,5 +16,5 @@ function handlebtnclick() {
     //$("#ul_list li").click(delete_li);
 }
 function delete_li() {
-    $(this).remove();
+    $(this).fadeOut();
 }
