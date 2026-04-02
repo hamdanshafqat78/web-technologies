@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <script src="jquery-4.0.0.js"></script>
+
+    <script src="bootstrap.min.js"></script>
+    <script src="jqcrud.js"></script>
+    <link rel="stylesheet" href="bootstrap.min.css">
+    <link rel="stylesheet" href="jqstyle.css">
+
+</head>
+
+<body class="container">
+    <h1>recepie api client</h1>
+
+
+    <div class="form-group">
+        <label for="title">Title</label>
+        <input type="text" id="title" class="form-control" placeholder="Recipe Title">
+    </div>
+    <div class="form-group">
+        <label for="body">Body</label>
+        <textarea id="body" class="form-control" placeholder="Recipe Body"></textarea>
+    </div>
+    <button id="addBtn" class="btn btn-primary">Add Recepie</button>
+
+
+    <div id="recepies">
+        loading...
+    </div>
+
+    <!-- Modal for updating recipes -->
+    <div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Update Recipe</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="updateId">
+                    <div class="form-group">
+                        <label for="updateTitle">Title</label>
+                        <input type="text" id="updateTitle" class="form-control" placeholder="Recipe Title">
+                    </div>
+                    <div class="form-group">
+                        <label for="updateBody">Body</label>
+                        <textarea id="updateBody" class="form-control" placeholder="Recipe Body"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button id="updateSave" class="btn btn-primary">Update</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
