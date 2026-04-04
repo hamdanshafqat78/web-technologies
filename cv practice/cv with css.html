@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Royal Style Landing Page</title>
+
+    <style>
+        /* ===== RESET ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f4f4f4;
+        }
+
+        /* ===== TOP BAR ===== */
+        .top-bar {
+            background-color: #1e3a34;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            font-size: 14px;
+        }
+
+        /* ===== NAVBAR ===== */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 50px;
+            background-color: white;
+            position: relative;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .menu {
+            display: flex;
+            gap: 30px;
+        }
+
+        .menu a {
+            text-decoration: none;
+            color: black;
+            font-weight: 600;
+            position: relative;
+        }
+
+        .menu a:hover {
+            color: #b30000;
+        }
+
+        /* ===== DROPDOWN ===== */
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: white;
+            top: 30px;
+            left: 0;
+            min-width: 180px;
+            box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+            padding: 10px 0;
+        }
+
+        .dropdown-content a {
+            display: block;
+            padding: 10px 20px;
+            font-weight: normal;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #f0f0f0;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        /* ===== HERO SECTION ===== */
+        .hero {
+            height: 85vh;
+            background-image: url("https://images.unsplash.com/photo-1603252109303-2751441dd157");
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            display: flex;
+            align-items: center;
+            padding-left: 80px;
+            color: white;
+        }
+
+        .hero::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+            background: rgba(0,0,0,0.4);
+        }
+
+        .hero-content {
+            position: relative;
+            max-width: 500px;
+        }
+
+        .hero h1 {
+            font-size: 50px;
+            margin-bottom: 20px;
+        }
+
+        .hero p {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            background-color: black;
+            color: white;
+            padding: 12px 25px;
+            text-decoration: none;
+            border-radius: 25px;
+            display: inline-block;
+            transition: 0.3s;
+        }
+
+        .btn:hover {
+            background-color: #b30000;
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <!-- TOP SHIPPING BAR -->
+    <div class="top-bar">
+        Free Shipping on orders above PKR 5,000
+    </div>
+
+    <!-- NAVIGATION BAR -->
+    <div class="navbar">
+
+        <div class="logo">
+            ROYAL TAG
+        </div>
+
+        <div class="menu">
+
+            <a href="#">NEW ARRIVALS</a>
+
+            <div class="dropdown">
+                <a href="#">SUITS & COATS</a>
+
+                <div class="dropdown-content">
+                    <a href="#">Casual Coats</a>
+                    <a href="#">3 Piece Suits</a>
+                    <a href="#">2 Piece Suits</a>
+                </div>
+            </div>
+
+            <a href="#">DRESS SHIRTS</a>
+            <a href="#">ACCESSORIES</a>
+            <a href="#">SALE</a>
+
+        </div>
+    </div>
+
+    <!-- HERO SECTION -->
+    <div class="hero">
+        <div class="hero-content">
+            <h1>THE HERITAGE SUMMER</h1>
+            <p>New Arrivals Collection</p>
+            <a href="#" class="btn">View Collection</a>
+        </div>
+    </div>
+
+</body>
+</html>

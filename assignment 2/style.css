@@ -1,0 +1,716 @@
+/* ================================================
+   RoyalTag - Assignment 2
+   Responsive Website with JavaScript Hamburger Menu
+   Plain CSS Only | 4 Pages
+   ================================================
+
+   BREAKPOINTS:
+   - Desktop  : default (above 900px)
+   - Tablet   : max-width 900px
+   - Mobile   : max-width 768px
+   - Sm Mobile: max-width 480px
+   ================================================ */
+
+
+/* ===== RESET ===== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #333333;
+    background-color: #f5f5f0;
+}
+
+a {
+    text-decoration: none;
+}
+
+
+/* ================================================
+   NAVBAR — DESKTOP
+   ================================================ */
+
+.navbar {
+    background-color: #1a1a2e;
+    position: sticky;
+    top: 0;
+    z-index: 999;
+}
+
+.nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+}
+
+/* Logo */
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.logo img {
+    height: 42px;
+    object-fit: contain;
+}
+
+.logo-text {
+    color: #e8b86d;
+    font-size: 1.4rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+}
+
+/* Nav Links — desktop: horizontal row */
+.nav-links {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 35px;
+}
+
+.nav-links a {
+    color: #cccccc;
+    font-size: 0.95rem;
+    letter-spacing: 0.5px;
+    display: block;
+    padding: 6px 0;
+}
+
+.nav-links a:hover {
+    color: #e8b86d;
+}
+
+.nav-links a.active {
+    color: #e8b86d;
+    font-weight: 600;
+}
+
+/* Hamburger Button — hidden on desktop */
+.hamburger {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    z-index: 1000;
+}
+
+.hamburger span {
+    display: block;
+    width: 26px;
+    height: 3px;
+    background-color: #ffffff;
+    border-radius: 2px;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+/* Hamburger → X animation (JS adds .active class) */
+.hamburger.active span:nth-child(1) {
+    transform: translateY(8px) rotate(45deg);
+}
+
+.hamburger.active span:nth-child(2) {
+    opacity: 0;
+    transform: scaleX(0);
+}
+
+.hamburger.active span:nth-child(3) {
+    transform: translateY(-8px) rotate(-45deg);
+}
+
+
+/* ================================================
+   HERO — HOME PAGE
+   ================================================ */
+
+.hero {
+    height: 88vh;
+    min-height: 500px;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.hero-content {
+    max-width: 680px;
+    padding: 0 20px;
+}
+
+.hero-label {
+    color: #e8b86d;
+    font-size: 0.85rem;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    margin-bottom: 18px;
+}
+
+.hero h1 {
+    color: #ffffff;
+    font-size: 3.5rem;
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 20px;
+}
+
+.hero-tagline {
+    color: #aaaaaa;
+    font-size: 1.1rem;
+    line-height: 1.7;
+    margin-bottom: 35px;
+}
+
+.btn-primary {
+    display: inline-block;
+    background-color: #e8b86d;
+    color: #1a1a2e;
+    padding: 14px 40px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+}
+
+.btn-primary:hover {
+    background-color: #d4a055;
+}
+
+
+/* ================================================
+   PAGE HEADER — Products & Cart pages
+   ================================================ */
+
+.page-header {
+    background-color: #1a1a2e;
+    text-align: center;
+    padding: 50px 20px;
+}
+
+.page-header h1 {
+    color: #ffffff;
+    font-size: 2.2rem;
+    margin-bottom: 10px;
+}
+
+.page-header p {
+    color: #aaaaaa;
+    font-size: 1rem;
+}
+
+
+/* ================================================
+   PRODUCTS SECTION
+   ================================================ */
+
+.products-section {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 60px 20px;
+}
+
+.section-header {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.section-header h2 {
+    font-size: 2rem;
+    color: #1a1a2e;
+    margin-bottom: 10px;
+    letter-spacing: 1px;
+}
+
+.section-header p {
+    color: #888888;
+    font-size: 1rem;
+}
+
+/* Product Grid — 3 columns desktop */
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+}
+
+.product-card {
+    background-color: #ffffff;
+    border: 1px solid #eaeaea;
+    overflow: hidden;
+}
+
+.product-img {
+    width: 100%;
+    height: 240px;
+}
+
+/* CSS gradient placeholders */
+.img-1  { background: linear-gradient(135deg, #667eea, #764ba2); }
+.img-2  { background: linear-gradient(135deg, #f093fb, #f5576c); }
+.img-3  { background: linear-gradient(135deg, #4facfe, #00f2fe); }
+.img-4  { background: linear-gradient(135deg, #43e97b, #38f9d7); }
+.img-5  { background: linear-gradient(135deg, #fa709a, #fee140); }
+.img-6  { background: linear-gradient(135deg, #a18cd1, #fbc2eb); }
+.img-7  { background: linear-gradient(135deg, #ffecd2, #fcb69f); }
+.img-8  { background: linear-gradient(135deg, #a1c4fd, #c2e9fb); }
+.img-9  { background: linear-gradient(135deg, #fd7043, #ff8a65); }
+.img-10 { background: linear-gradient(135deg, #26c6da, #00838f); }
+.img-11 { background: linear-gradient(135deg, #66bb6a, #2e7d32); }
+.img-12 { background: linear-gradient(135deg, #ab47bc, #6a1b9a); }
+
+.product-info {
+    padding: 18px 20px;
+}
+
+.product-info h3 {
+    font-size: 1rem;
+    color: #1a1a2e;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.price {
+    color: #e8b86d;
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 15px;
+}
+
+.btn-cart {
+    width: 100%;
+    background-color: #1a1a2e;
+    color: #ffffff;
+    border: none;
+    padding: 10px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+}
+
+.btn-cart:hover {
+    background-color: #e8b86d;
+    color: #1a1a2e;
+}
+
+/* View All button on home page */
+.view-all-wrap {
+    text-align: center;
+    margin-top: 45px;
+}
+
+.btn-outline {
+    display: inline-block;
+    border: 2px solid #1a1a2e;
+    color: #1a1a2e;
+    padding: 12px 36px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.btn-outline:hover {
+    background-color: #1a1a2e;
+    color: #ffffff;
+}
+
+
+/* ================================================
+   CART PAGE
+   ================================================ */
+
+.cart-section {
+    min-height: 60vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 20px;
+}
+
+.cart-container {
+    max-width: 700px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.cart-empty {
+    text-align: center;
+    padding: 60px 20px;
+    background-color: #ffffff;
+    border: 1px solid #eaeaea;
+}
+
+.cart-icon {
+    font-size: 4rem;
+    margin-bottom: 20px;
+}
+
+.cart-empty h2 {
+    font-size: 1.6rem;
+    color: #1a1a2e;
+    margin-bottom: 10px;
+}
+
+.cart-empty p {
+    color: #888888;
+    margin-bottom: 30px;
+    font-size: 1rem;
+}
+
+
+/* ================================================
+   LOGIN PAGE
+   ================================================ */
+
+.login-section {
+    min-height: calc(100vh - 70px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+    background-color: #f5f5f0;
+}
+
+.login-card {
+    background-color: #ffffff;
+    border: 1px solid #eaeaea;
+    padding: 45px 40px;
+    width: 100%;
+    max-width: 420px;
+}
+
+.login-header {
+    text-align: center;
+    margin-bottom: 35px;
+}
+
+.login-logo {
+    height: 50px;
+    object-fit: contain;
+    margin-bottom: 15px;
+}
+
+.login-header h1 {
+    font-size: 1.7rem;
+    color: #1a1a2e;
+    margin-bottom: 6px;
+}
+
+.login-header p {
+    color: #888888;
+    font-size: 0.9rem;
+}
+
+/* Form */
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+.form-group label {
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: #1a1a2e;
+}
+
+.form-group input {
+    padding: 12px 14px;
+    border: 1px solid #dddddd;
+    font-size: 0.95rem;
+    color: #333333;
+    outline: none;
+    font-family: inherit;
+}
+
+.form-group input:focus {
+    border-color: #e8b86d;
+}
+
+.form-options {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 0.85rem;
+}
+
+.remember-me {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: #555555;
+    cursor: pointer;
+}
+
+.forgot-link {
+    color: #e8b86d;
+    font-weight: 600;
+}
+
+.forgot-link:hover {
+    color: #d4a055;
+}
+
+.btn-login {
+    width: 100%;
+    background-color: #1a1a2e;
+    color: #ffffff;
+    border: none;
+    padding: 13px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+    margin-top: 5px;
+}
+
+.btn-login:hover {
+    background-color: #e8b86d;
+    color: #1a1a2e;
+}
+
+.signup-text {
+    text-align: center;
+    margin-top: 22px;
+    font-size: 0.88rem;
+    color: #888888;
+}
+
+.signup-text a {
+    color: #e8b86d;
+    font-weight: 600;
+}
+
+
+/* ================================================
+   FOOTER
+   ================================================ */
+
+.footer {
+    background-color: #1a1a2e;
+    color: #aaaaaa;
+    text-align: center;
+    padding: 22px 20px;
+    font-size: 0.9rem;
+}
+
+
+/* ================================================
+   MEDIA QUERY — TABLET (max-width: 900px)
+   ================================================ */
+
+@media (max-width: 900px) {
+
+    /* 2-column product grid */
+    .product-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+
+    .product-img {
+        height: 210px;
+    }
+
+    .hero h1 {
+        font-size: 2.8rem;
+    }
+}
+
+
+/* ================================================
+   MEDIA QUERY — MOBILE (max-width: 768px)
+   JavaScript hamburger menu becomes active here
+   ================================================ */
+
+@media (max-width: 768px) {
+
+    /* ----- NAVBAR ----- */
+
+    /* Show hamburger button */
+    .hamburger {
+        display: flex;
+    }
+
+    /* Nav links: stacked, hidden by default (max-height: 0) */
+    .nav-links {
+        position: absolute;
+        top: 70px;
+        left: 0;
+        width: 100%;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0;
+        background-color: #1a1a2e;
+        border-top: 1px solid #2e2e4e;
+
+        /* Smooth slide-down using max-height transition */
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.35s ease;
+    }
+
+    /* JS adds this class to open the menu */
+    .nav-links.open {
+        max-height: 400px;
+    }
+
+    .nav-links li {
+        border-bottom: 1px solid #2e2e4e;
+    }
+
+    .nav-links a {
+        padding: 15px 25px;
+        font-size: 1rem;
+    }
+
+    /* ----- HERO ----- */
+
+    .hero {
+        height: auto;
+        min-height: 420px;
+        padding: 60px 20px;
+    }
+
+    .hero h1 {
+        font-size: 2rem;
+    }
+
+    .hero-tagline {
+        font-size: 0.95rem;
+    }
+
+    .hero-label {
+        font-size: 0.75rem;
+        letter-spacing: 3px;
+    }
+
+    .btn-primary {
+        padding: 12px 30px;
+        font-size: 0.85rem;
+    }
+
+    /* ----- PRODUCTS ----- */
+
+    .product-grid {
+        grid-template-columns: 1fr;
+        gap: 18px;
+    }
+
+    .product-img {
+        height: 230px;
+    }
+
+    .section-header h2 {
+        font-size: 1.6rem;
+    }
+
+    .products-section {
+        padding: 40px 15px;
+    }
+
+    /* ----- PAGE HEADER ----- */
+
+    .page-header h1 {
+        font-size: 1.7rem;
+    }
+
+    /* ----- LOGIN ----- */
+
+    .login-card {
+        padding: 30px 20px;
+    }
+
+    .login-header h1 {
+        font-size: 1.4rem;
+    }
+
+    /* ----- FOOTER ----- */
+
+    .footer {
+        font-size: 0.8rem;
+    }
+}
+
+
+/* ================================================
+   MEDIA QUERY — SMALL MOBILE (max-width: 480px)
+   ================================================ */
+
+@media (max-width: 480px) {
+
+    /* Navbar */
+    .nav-container {
+        height: 60px;
+    }
+
+    .nav-links {
+        top: 60px;
+    }
+
+    .logo img {
+        height: 34px;
+    }
+
+    .logo-text {
+        font-size: 1.1rem;
+    }
+
+    /* Hero */
+    .hero h1 {
+        font-size: 1.7rem;
+    }
+
+    /* Products */
+    .product-img {
+        height: 200px;
+    }
+
+    .product-info {
+        padding: 14px 16px;
+    }
+
+    .product-info h3 {
+        font-size: 0.92rem;
+    }
+
+    .price {
+        font-size: 1rem;
+    }
+
+    .btn-cart {
+        font-size: 0.8rem;
+        padding: 9px;
+    }
+
+    /* Cart empty */
+    .cart-icon {
+        font-size: 3rem;
+    }
+
+    .cart-empty h2 {
+        font-size: 1.3rem;
+    }
+}

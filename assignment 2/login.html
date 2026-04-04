@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="RoyalTag - Login to your account.">
+    <title>RoyalTag - Login</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- ===== NAVBAR ===== -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a class="logo" href="index.html">
+                <img src="images/logo.png" alt="RoyalTag Logo">
+                <span class="logo-text">RoyalTag</span>
+            </a>
+            <button class="hamburger" id="hamburger-btn" aria-label="Toggle Menu" aria-expanded="false">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-links" id="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="products.html">Products</a></li>
+                <li><a href="cart.html">Cart</a></li>
+                <li><a href="login.html" class="active">Login</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- ===== LOGIN SECTION ===== -->
+    <section class="login-section">
+        <div class="login-card">
+
+            <div class="login-header">
+                <img src="images/logo.png" alt="RoyalTag" class="login-logo">
+                <h1>Welcome Back</h1>
+                <p>Login to your RoyalTag account</p>
+            </div>
+
+            <form class="login-form" id="login-form">
+
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        placeholder="Enter your email"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        placeholder="Enter your password"
+                        required
+                    >
+                </div>
+
+                <div class="form-options">
+                    <label class="remember-me">
+                        <input type="checkbox" id="remember"> Remember me
+                    </label>
+                    <a href="#" class="forgot-link">Forgot Password?</a>
+                </div>
+
+                <button type="submit" class="btn-login">Login</button>
+
+            </form>
+
+            <p class="signup-text">
+                Don't have an account? <a href="#">Create one</a>
+            </p>
+
+        </div>
+    </section>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="footer">
+        <p>&copy; 2025 RoyalTag. All rights reserved.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
