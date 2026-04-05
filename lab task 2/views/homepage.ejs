@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="RoyalTag - Premium Fashion Store">
+
+    <%-- EJS tag: Output the page title passed from server.js --%>
+    <title><%= pageTitle %></title>
+
+    <%-- Static files are served from /public — referenced with leading slash --%>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+    <!-- ===== NAVBAR ===== -->
+    <nav class="navbar">
+        <div class="nav-container">
+
+            <!-- Logo — /images/ maps to public/images/ -->
+            <a class="logo" href="/">
+                <img src="/images/logo.png" alt="RoyalTag Logo">
+                <span class="logo-text">RoyalTag</span>
+            </a>
+
+            <!-- Hamburger Button (controlled by JavaScript) -->
+            <button class="hamburger" id="hamburger-btn" aria-label="Toggle Menu" aria-expanded="false">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+
+            <!-- Nav Links -->
+            <%-- EJS: activePage variable is passed from server.js --%>
+            <ul class="nav-links" id="nav-menu">
+                <li><a href="/" class="<%= activePage === 'home' ? 'active' : '' %>">Home</a></li>
+                <li><a href="#">Products</a></li>
+                <li><a href="#">Cart</a></li>
+                <li><a href="#">Login</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- ===== HERO SECTION ===== -->
+    <section class="hero">
+        <div class="hero-content">
+            <p class="hero-label">New Collection 2025</p>
+            <h1>Elevate Your Style</h1>
+            <p class="hero-tagline">Discover premium fashion crafted for the modern individual.</p>
+            <a href="#featured" class="btn-primary">Shop Now</a>
+        </div>
+    </section>
+
+    <!-- ===== FEATURED PRODUCTS ===== -->
+    <section class="products-section" id="featured">
+        <div class="section-header">
+            <h2>Featured Products</h2>
+            <p>Handpicked styles just for you</p>
+        </div>
+
+        <div class="product-grid">
+
+            <%-- EJS loop: iterate over the products array passed from server.js --%>
+            <% products.forEach(function(product) { %>
+                <div class="product-card">
+                    <div class="product-img <%= product.imgClass %>"></div>
+                    <div class="product-info">
+                        <h3><%= product.name %></h3>
+                        <p class="price"><%= product.price %></p>
+                        <button class="btn-cart">Add to Cart</button>
+                    </div>
+                </div>
+            <% }); %>
+
+        </div>
+    </section>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="footer">
+        <p>&copy; 2025 RoyalTag. All rights reserved.</p>
+    </footer>
+
+    <%-- Client-side JS is served from public/js/ --%>
+    <script src="/js/script.js"></script>
+
+</body>
+</html>

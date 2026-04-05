@@ -1,0 +1,13 @@
+{
+  "name": "royaltag-express",
+  "version": "1.0.0",
+  "description": "RoyalTag Landing Page - Express + EJS (Lab Task 2)",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "ejs": "^5.0.1",
+    "express": "^5.2.1"
+  }
+}
