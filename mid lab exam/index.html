@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="RoyalTag - Premium Fashion Store. Shop the latest men's fashion online.">
+    <title>RoyalTag - Home</title>
+
+    <!-- Site CSS -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Slick Carousel CSS (CDN) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css">
+</head>
+<body>
+
+    <!-- ===== NAVBAR ===== -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a class="logo" href="index.html">
+                <img src="images/logo.png" alt="RoyalTag Logo">
+                <span class="logo-text">RoyalTag</span>
+            </a>
+            <!-- JS-powered Hamburger Button -->
+            <button class="hamburger" id="hamburger-btn" aria-label="Toggle Menu" aria-expanded="false">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-links" id="nav-menu">
+                <li><a href="index.html" class="active">Home</a></li>
+                <li><a href="products.html">Products</a></li>
+                <li><a href="cart.html">Cart</a></li>
+                <li><a href="login.html">Login</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- ===== HERO SECTION ===== -->
+    <section class="hero">
+        <div class="hero-content">
+            <p class="hero-label">New Collection 2025</p>
+            <h1>Elevate Your Style</h1>
+            <p class="hero-tagline">Discover premium fashion crafted for the modern individual.</p>
+            <a href="products.html" class="btn-primary">Shop Now</a>
+        </div>
+    </section>
+
+    <!-- ===== FEATURED PRODUCTS CAROUSEL ===== -->
+    <section class="products-section" id="featured">
+        <div class="section-header">
+            <h2>Featured Products</h2>
+            <p>Handpicked styles just for you</p>
+        </div>
+
+        <!-- Carousel Controls: Prev | Counter | Next -->
+        <div class="carousel-controls">
+            <button class="carousel-btn" id="featured-prev-btn">&#8592; Prev</button>
+            <span class="slide-counter" id="featured-counter">Showing 1 of 12</span>
+            <button class="carousel-btn" id="featured-next-btn">Next &#8594;</button>
+        </div>
+
+        <!-- Slick target: 6 featured product cards -->
+        <div class="product-slider" id="featured-carousel">
+
+            <!-- Card 1: Real Image -->
+            <div class="product-card">
+                <img src="images/product-1.png" alt="Premium Polo Shirt" class="product-img product-img-photo">
+                <div class="product-info">
+                    <h3>Premium Polo Shirt</h3>
+                    <p class="price">$49.00</p>
+                    <button class="btn-cart">Add to Cart</button>
+                </div>
+            </div>
+
+            <!-- Card 2: Real Image -->
+            <div class="product-card">
+                <img src="images/product-2.png" alt="Formal Dress Shirt" class="product-img product-img-photo">
+                <div class="product-info">
+                    <h3>Formal Dress Shirt</h3>
+                    <p class="price">$65.00</p>
+                    <button class="btn-cart">Add to Cart</button>
+                </div>
+            </div>
+
+            <!-- Card 3: Real Image -->
+            <div class="product-card">
+                <img src="images/product-3.png" alt="Casual Jacket" class="product-img product-img-photo">
+                <div class="product-info">
+                    <h3>Casual Jacket</h3>
+                    <p class="price">$89.00</p>
+                    <button class="btn-cart">Add to Cart</button>
+                </div>
+            </div>
+
+            <!-- Card 4: Real Image -->
+            <div class="product-card">
+                <img src="images/product-4.png" alt="Slim Fit Chinos" class="product-img product-img-photo">
+                <div class="product-info">
+                    <h3>Slim Fit Chinos</h3>
+                    <p class="price">$55.00</p>
+                    <button class="btn-cart">Add to Cart</button>
+                </div>
+            </div>
+
+            <!-- Card 5: Real Image -->
+            <div class="product-card">
+                <img src="images/product-5.png" alt="Cotton Kurta" class="product-img product-img-photo">
+                <div class="product-info">
+                    <h3>Cotton Kurta</h3>
+                    <p class="price">$39.00</p>
+                    <button class="btn-cart">Add to Cart</button>
+                </div>
+            </div>
+
+            <!-- Card 6: Real Image -->
+            <div class="product-card">
+                <img src="images/product-6.png" alt="Classic Waistcoat" class="product-img product-img-photo">
+                <div class="product-info">
+                    <h3>Classic Waistcoat</h3>
+                    <p class="price">$72.00</p>
+                    <button class="btn-cart">Add to Cart</button>
+                </div>
+            </div>
+
+            <!-- Card 7: Real Image -->
+            <div class="product-card">
+                <img src="images/product-7.jpg" alt="Linen Trousers" class="product-img product-img-photo">
+                <div class="product-info">
+                    <h3>Linen Trousers</h3>
+                    <p class="price">$59.00</p>
+                    <button class="btn-cart">Add to Cart</button>
+                </div>
+            </div>
+
+            <!-- Card 8: Real Image -->
+            <div class="product-card">
+                <img src="images/product-8.jpg" alt="Embroidered Shalwar Kameez" class="product-img product-img-photo">
+                <div class="product-info">
+                    <h3>Embroidered Shalwar Kameez</h3>
+                    <p class="price">$79.00</p>
+                    <button class="btn-cart">Add to Cart</button>
+                </div>
+            </div>
+
+            <!-- Card 9: Real Image -->
+            <div class="product-card">
+                <img src="images/product-9.jpg" alt="Denim Jacket" class="product-img product-img-photo">
+                <div class="product-info">
+                    <h3>Denim Jacket</h3>
+                    <p class="price">$95.00</p>
+                    <button class="btn-cart">Add to Cart</button>
+                </div>
+            </div>
+
+            <!-- Card 10: Real Image -->
+            <div class="product-card">
+                <img src="images/product-10.jpg" alt="V-Neck Sweater" class="product-img product-img-photo">
+                <div class="product-info">
+                    <h3>V-Neck Sweater</h3>
+                    <p class="price">$45.00</p>
+                    <button class="btn-cart">Add to Cart</button>
+                </div>
+            </div>
+
+            <!-- Card 11: Real Image -->
+            <div class="product-card">
+                <img src="images/product-11.jpg" alt="Oxford Button Shirt" class="product-img product-img-photo">
+                <div class="product-info">
+                    <h3>Oxford Button Shirt</h3>
+                    <p class="price">$69.00</p>
+                    <button class="btn-cart">Add to Cart</button>
+                </div>
+            </div>
+
+            <!-- Card 12: Real Image -->
+            <div class="product-card">
+                <img src="images/product-12.jpg" alt="Festive Sherwani" class="product-img product-img-photo">
+                <div class="product-info">
+                    <h3>Festive Sherwani</h3>
+                    <p class="price">$199.00</p>
+                    <button class="btn-cart">Add to Cart</button>
+                </div>
+            </div>
+
+        </div><!-- end #featured-carousel -->
+
+        <div class="view-all-wrap">
+            <a href="products.html" class="btn-outline">View All Products</a>
+        </div>
+    </section>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="footer">
+        <p>&copy; 2025 RoyalTag. All rights reserved.</p>
+    </footer>
+
+    <!-- jQuery (CDN) -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+    <!-- Slick Carousel JS (CDN) -->
+    <script src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+
+    <!-- Hamburger + Login (Vanilla JS) -->
+    <script src="script.js"></script>
+
+    <!-- Featured Carousel Initialisation (jQuery) -->
+    <script>
+        $(document).ready(function () {
+
+            var FEATURED_TOTAL = 12;
+            var $featCounter = $('#featured-counter');
+
+            /* -------------------------------------------------------
+               Initialize Slick on the featured carousel
+               Same settings as products page:
+               - infinite loop, autoplay 5s, pause on hover
+               - 3 desktop / 2 tablet / 1 mobile
+               - custom arrows disabled (we use our own buttons)
+            ------------------------------------------------------- */
+            $('#featured-carousel').slick({
+                infinite:       true,
+                slidesToShow:   3,
+                slidesToScroll: 1,
+                autoplay:       true,
+                autoplaySpeed:  5000,
+                pauseOnHover:   true,
+                arrows:         false,
+                responsive: [
+                    {
+                        breakpoint: 901,
+                        settings: {
+                            slidesToShow:   2,
+                            slidesToScroll: 1
+                        }
+                    },
+                    {
+                        breakpoint: 769,
+                        settings: {
+                            slidesToShow:   1,
+                            slidesToScroll: 1
+                        }
+                    }
+                ]
+            });
+
+            /* jQuery-powered Prev button for featured carousel */
+            $('#featured-prev-btn').on('click', function () {
+                $('#featured-carousel').slick('slickPrev');
+            });
+
+            /* jQuery-powered Next button for featured carousel */
+            $('#featured-next-btn').on('click', function () {
+                $('#featured-carousel').slick('slickNext');
+            });
+
+            /* Slide Counter update for featured carousel */
+            $('#featured-carousel').on('afterChange', function (e, slick, currentSlide) {
+                $featCounter.text('Showing ' + (currentSlide + 1) + ' of ' + FEATURED_TOTAL);
+            });
+
+        });
+    </script>
+
+</body>
+</html>
