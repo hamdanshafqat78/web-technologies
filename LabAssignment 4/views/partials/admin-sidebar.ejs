@@ -1,0 +1,34 @@
+    <!-- ===== ADMIN SIDEBAR (Shared Partial) ===== -->
+    <aside class="admin-sidebar">
+        <div class="sidebar-brand">
+            <span class="logo-text">RoyalTag</span>
+            <p>Admin Panel</p>
+        </div>
+        <nav class="sidebar-nav">
+            <p class="nav-section-label">Main</p>
+            <a href="/admin" class="sidebar-link <%= activeSidebar === 'dashboard' ? 'active' : '' %>">
+                <span class="icon">📊</span> Dashboard
+            </a>
+            <a href="/admin/products/add" class="sidebar-link <%= activeSidebar === 'add' ? 'active' : '' %>">
+                <span class="icon">➕</span> Add Product
+            </a>
+            <div class="sidebar-divider"></div>
+            <p class="nav-section-label">Store</p>
+            <a href="/" target="_blank" class="sidebar-link">
+                <span class="icon">🏪</span> View Storefront
+            </a>
+            <a href="/products" target="_blank" class="sidebar-link">
+                <span class="icon">🛍️</span> Product Catalog
+            </a>
+        </nav>
+        <div class="sidebar-footer">
+            <div class="admin-user-info">
+                <div class="admin-avatar"><%= currentUser ? currentUser.name.charAt(0).toUpperCase() : 'A' %></div>
+                <div>
+                    <div class="name"><%= currentUser ? currentUser.name : 'Admin' %></div>
+                    <div class="role">Administrator</div>
+                </div>
+            </div>
+            <a href="/logout" class="btn-logout">🚪 Logout</a>
+        </div>
+    </aside>

@@ -1,0 +1,99 @@
+
+<%- include('partials/header', {
+        activePage: 'home',
+        pageTitle:  'RoyalTag — Home',
+        metaDesc:   'RoyalTag - Premium Fashion & Lifestyle Store. Shop the latest collections online.'
+    }) %>
+
+    <!-- ===== HERO ===== -->
+    <section class="hero">
+        <div class="hero-content">
+            <p class="hero-label">New Collection 2025</p>
+            <h1>Elevate Your Style</h1>
+            <p class="hero-tagline">Discover premium fashion crafted for the modern individual.</p>
+            <a href="/products" class="btn-primary">Shop Now</a>
+        </div>
+        <div class="hero-shapes">
+            <div class="shape shape-1"></div>
+            <div class="shape shape-2"></div>
+        </div>
+    </section>
+
+    <!-- ===== STATS STRIP ===== -->
+    <div class="stats-strip">
+        <div class="stat-item"><span class="stat-num">500+</span><span class="stat-label">Products</span></div>
+        <div class="stat-item"><span class="stat-num">50K+</span><span class="stat-label">Happy Customers</span></div>
+        <div class="stat-item"><span class="stat-num">5</span><span class="stat-label">Categories</span></div>
+        <div class="stat-item"><span class="stat-num">4.8★</span><span class="stat-label">Avg. Rating</span></div>
+    </div>
+
+    <!-- ===== FEATURED PRODUCTS ===== -->
+    <section class="featured-section">
+        <div class="section-header">
+            <p class="section-label">Handpicked for You</p>
+            <h2>Featured Products</h2>
+            <p class="section-sub">Top-rated items from our curated collection</p>
+        </div>
+
+        <div class="featured-grid">
+            <% featured.forEach(function(product) { %>
+            <div class="product-card">
+                <div class="product-img-wrap">
+                    <img src="/images/<%= product.image %>" alt="<%= product.name %>" class="product-img">
+                    <span class="cat-badge cat-<%= product.category.toLowerCase() %>"><%= product.category %></span>
+                </div>
+                <div class="product-info">
+                    <h3><%= product.name %></h3>
+                    <div class="product-meta">
+                        <span class="stars">
+                            <% for(let i = 1; i <= 5; i++) { %>
+                                <% if(i <= Math.floor(product.rating)) { %>★<% } else { %>☆<% } %>
+                            <% } %>
+                            <span class="rating-num">(<%= product.rating %>)</span>
+                        </span>
+                    </div>
+                    <div class="product-footer">
+                        <span class="price">$<%= product.price.toFixed(2) %></span>
+                        <button class="btn-cart" onclick="addToCart('<%= product.name %>', <%= product.price %>)">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+            <% }) %>
+        </div>
+
+        <div class="view-all-wrap">
+            <a href="/products" class="btn-outline">View All Products &rarr;</a>
+        </div>
+    </section>
+
+    <!-- ===== CATEGORIES SECTION ===== -->
+    <section class="categories-section">
+        <div class="section-header">
+            <p class="section-label">Browse by</p>
+            <h2>Shop Categories</h2>
+        </div>
+        <div class="cat-grid">
+            <a href="/products?category=Fashion" class="cat-card cat-card-fashion">
+                <span class="cat-icon">👔</span>
+                <span class="cat-name">Fashion</span>
+            </a>
+            <a href="/products?category=Electronics" class="cat-card cat-card-electronics">
+                <span class="cat-icon">📱</span>
+                <span class="cat-name">Electronics</span>
+            </a>
+            <a href="/products?category=Home" class="cat-card cat-card-home">
+                <span class="cat-icon">🏠</span>
+                <span class="cat-name">Home</span>
+            </a>
+            <a href="/products?category=Sports" class="cat-card cat-card-sports">
+                <span class="cat-icon">⚽</span>
+                <span class="cat-name">Sports</span>
+            </a>
+            <a href="/products?category=Books" class="cat-card cat-card-books">
+                <span class="cat-icon">📚</span>
+                <span class="cat-name">Books</span>
+            </a>
+        </div>
+    </section>
+
+<%- include('partials/footer') %>

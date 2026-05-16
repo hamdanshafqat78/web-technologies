@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard — RoyalTag</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/admin.css">
+</head>
+<body>
+<div class="admin-wrapper">
+
+    <!-- ===== SIDEBAR ===== -->
+    <%- include('../partials/admin-sidebar', { activeSidebar: 'dashboard' }) %>
+
+    <!-- ===== MAIN ===== -->
+    <main class="admin-main">
+        <div class="admin-topbar">
+            <div>
+                <h1>Dashboard</h1>
+                <p class="breadcrumb"><a href="/admin">Admin</a> / Dashboard</p>
+            </div>
+            <a href="/admin/products/add" class="btn-add-new">➕ Add New Product</a>
+        </div>
+
+        <div class="admin-content">
+
+            <!-- Flash Messages -->
+            <% if(success && success.length) { %>
+            <div class="flash-success">✅ <%= success[0] %></div>
+            <% } %>
+            <% if(error && error.length) { %>
+            <div class="flash-error-bar">⚠️ <%= error[0] %></div>
+            <% } %>
+
+            <!-- ── STAT CARDS ── -->
+            <div class="stats-grid">
+                <div class="stat-card blue">
+                    <div class="stat-icon">📦</div>
+                    <div class="stat-info">
+                        <div class="stat-val"><%= stats.total %></div>
+                        <div class="stat-lbl">Total Products</div>
+                    </div>
+                </div>
+                <div class="stat-card gold">
+                    <div class="stat-icon">💰</div>
+                    <div class="stat-info">
+                        <div class="stat-val">$<%= stats.totalValue.toLocaleString('en-US', {minimumFractionDigits:0, maximumFractionDigits:0}) %></div>
+                        <div class="stat-lbl">Inventory Value</div>
+                    </div>
+                </div>
+                <div class="stat-card orange">
+                    <div class="stat-icon">⚠️</div>
+                    <div class="stat-info">
+                        <div class="stat-val"><%= stats.lowStock %></div>
+                        <div class="stat-lbl">Low Stock Items</div>
+                    </div>
+                </div>
+                <div class="stat-card red">
+                    <div class="stat-icon">🚫</div>
+                    <div class="stat-info">
+                        <div class="stat-val"><%= stats.outStock %></div>
+                        <div class="stat-lbl">Out of Stock</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ── PRODUCTS TABLE ── -->
+            <div class="table-card">
+                <div class="table-card-header">
+                    <h2>All Products (<%= stats.total %>)</h2>
+                    <a href="/admin/products/add" class="btn-add-new">➕ Add New</a>
+                </div>
+
+                <% if(products.length === 0) { %>
+                <div class="admin-empty">
+                    <div class="icon">📭</div>
+                    <p>No products yet. <a href="/admin/products/add">Add the first one!</a></p>
+                </div>
+                <% } else { %>
+                <div style="overflow-x:auto;">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Image</th>
+                            <th>Name</th>
+                            <th>Category</th>
+                            <th>Price</th>
+                            <th>Rating</th>
+                            <th>Stock</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% products.forEach(function(product, idx) { %>
+                        <tr>
+                            <td style="color:#888;font-size:0.8rem;"><%= idx + 1 %></td>
+                            <td>
+                                <img
+                                    src="/<%= product.image %>"
+                                    alt="<%= product.name %>"
+                                    class="product-thumb"
+                                    onerror="this.src='/images/product-1.png'"
+                                >
+                            </td>
+                            <td>
+                                <div class="product-name-cell"><%= product.name %></div>
+                                <div class="product-desc-cell"><%= product.description || '—' %></div>
+                            </td>
+                            <td>
+                                <span class="badge badge-<%= product.category.toLowerCase() %>">
+                                    <%= product.category %>
+                                </span>
+                            </td>
+                            <td style="font-weight:700;color:#e8b86d;">$<%= product.price.toFixed(2) %></td>
+                            <td>
+                                <span style="color:#f59e0b;font-weight:700;">★</span>
+                                <%= product.rating.toFixed(1) %>
+                            </td>
+                            <td>
+                                <span class="stock-pill <%= product.stock === 0 ? 'out' : product.stock < 20 ? 'low' : 'in' %>">
+                                    <%= product.stock === 0 ? 'Out' : product.stock < 20 ? 'Low ('+product.stock+')' : product.stock %>
+                                </span>
+                            </td>
+                            <td>
+                                <div class="action-btns">
+                                    <a href="/admin/products/edit/<%= product._id %>" class="btn-edit">✏️ Edit</a>
+                                    <form method="POST" action="/admin/products/delete/<%= product._id %>" style="display:inline;" onsubmit="return confirmDelete('<%= product.name.replace(/'/g, "\\'") %>')">
+                                        <button type="submit" class="btn-delete">🗑️ Delete</button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                        <% }) %>
+                    </tbody>
+                </table>
+                </div>
+                <% } %>
+            </div>
+
+        </div>
+    </main>
+</div>
+
+<script>
+function confirmDelete(name) {
+    return confirm('⚠️ Delete "' + name + '"?\n\nThis action cannot be undone!');
+}
+</script>
+</body>
+</html>

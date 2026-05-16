@@ -1,0 +1,64 @@
+
+<%- include('partials/header', {
+        activePage: 'checkout',
+        pageTitle:  'RoyalTag — Checkout',
+        metaDesc:   'Complete your RoyalTag purchase.'
+    }) %>
+
+    <!-- ===== PAGE HEADER ===== -->
+    <div class="page-header">
+        <h1>Checkout</h1>
+        <p>Complete your order, <strong><%= currentUser.name %></strong></p>
+    </div>
+
+    <!-- ===== CHECKOUT SECTION ===== -->
+    <section class="cart-section">
+        <div class="cart-container">
+            <div class="checkout-card">
+                <h2>🛒 Order Summary</h2>
+                <p style="color:#888; margin-bottom:24px;">Your cart items will appear here. This page is protected — only logged-in users can access it.</p>
+
+                <div id="checkout-items-container"></div>
+                <div class="cart-summary" id="checkout-summary" style="display:none;">
+                    <div class="cart-total-row">
+                        <span>Total</span>
+                        <span id="checkout-total-price">$0.00</span>
+                    </div>
+                    <button class="btn-primary" onclick="alert('Order placed successfully! Thank you, <%= currentUser.name %>!')">Place Order</button>
+                </div>
+
+                <div class="cart-empty" id="checkout-empty" style="display:none;">
+                    <div class="cart-icon">🛒</div>
+                    <h2>Your cart is empty</h2>
+                    <p>Add some products before checking out.</p>
+                    <a href="/products" class="btn-primary">Browse Products</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+    // Render checkout from localStorage cart
+    (function() {
+        var cart = JSON.parse(localStorage.getItem('royaltag_cart') || '[]');
+        var container = document.getElementById('checkout-items-container');
+        var summary   = document.getElementById('checkout-summary');
+        var empty     = document.getElementById('checkout-empty');
+
+        if (cart.length === 0) {
+            empty.style.display = 'block';
+            return;
+        }
+
+        summary.style.display = 'block';
+        var html = '', total = 0;
+        cart.forEach(function(item) {
+            total += item.price * item.qty;
+            html += '<div class="cart-item"><span class="cart-item-name">' + item.name + ' &times;' + item.qty + '</span><span class="cart-item-price">$' + (item.price * item.qty).toFixed(2) + '</span></div>';
+        });
+        container.innerHTML = html;
+        document.getElementById('checkout-total-price').textContent = '$' + total.toFixed(2);
+    })();
+    </script>
+
+<%- include('partials/footer') %>

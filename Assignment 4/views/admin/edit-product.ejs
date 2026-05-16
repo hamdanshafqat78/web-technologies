@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Product — RoyalTag Admin</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/admin.css">
+</head>
+<body>
+<div class="admin-wrapper">
+
+    <!-- ===== SIDEBAR ===== -->
+    <aside class="admin-sidebar">
+        <div class="sidebar-brand">
+            <span class="logo-text">RoyalTag</span>
+            <p>Admin Panel</p>
+        </div>
+        <nav class="sidebar-nav">
+            <p class="nav-section-label">Main</p>
+            <a href="/admin" class="sidebar-link">
+                <span class="icon">📊</span> Dashboard
+            </a>
+            <a href="/admin/products/add" class="sidebar-link">
+                <span class="icon">➕</span> Add Product
+            </a>
+            <div class="sidebar-divider"></div>
+            <p class="nav-section-label">Store</p>
+            <a href="/" target="_blank" class="sidebar-link">
+                <span class="icon">🏪</span> View Storefront
+            </a>
+            <a href="/products" target="_blank" class="sidebar-link">
+                <span class="icon">🛍️</span> Product Catalog
+            </a>
+        </nav>
+        <div class="sidebar-footer">
+            <div class="admin-user-info">
+                <div class="admin-avatar">A</div>
+                <div>
+                    <div class="name">Admin</div>
+                    <div class="role">Administrator</div>
+                </div>
+            </div>
+            <a href="/admin/logout" class="btn-logout">🚪 Logout</a>
+        </div>
+    </aside>
+
+    <!-- ===== MAIN ===== -->
+    <main class="admin-main">
+        <div class="admin-topbar">
+            <div>
+                <h1>Edit Product</h1>
+                <p class="breadcrumb"><a href="/admin">Admin</a> / <a href="/admin">Dashboard</a> / Edit: <%= product.name %></p>
+            </div>
+        </div>
+
+        <div class="admin-content">
+
+            <!-- Flash Messages -->
+            <% if(error && error.length) { %>
+            <div class="flash-error-bar">⚠️ <%= error[0] %></div>
+            <% } %>
+
+            <div class="form-card">
+                <h2>✏️ Edit: <%= product.name %></h2>
+
+                <form method="POST" action="/admin/products/edit/<%= product._id %>" enctype="multipart/form-data" id="edit-product-form" novalidate>
+
+                    <div class="form-grid">
+                        <!-- Name -->
+                        <div class="admin-form-group full-width">
+                            <label for="name">Product Name *</label>
+                            <input type="text" id="name" name="name" value="<%= product.name %>" required maxlength="120">
+                        </div>
+
+                        <!-- Price -->
+                        <div class="admin-form-group">
+                            <label for="price">Price (USD) *</label>
+                            <input type="number" id="price" name="price" value="<%= product.price %>" min="0" step="0.01" required>
+                        </div>
+
+                        <!-- Category -->
+                        <div class="admin-form-group">
+                            <label for="category">Category *</label>
+                            <select id="category" name="category" required>
+                                <% categories.forEach(cat => { %>
+                                <option value="<%= cat %>" <%= product.category === cat ? 'selected' : '' %>><%= cat %></option>
+                                <% }) %>
+                            </select>
+                        </div>
+
+                        <!-- Rating -->
+                        <div class="admin-form-group">
+                            <label for="rating">Rating (0–5) *</label>
+                            <input type="number" id="rating" name="rating" value="<%= product.rating %>" min="0" max="5" step="0.1" required>
+                        </div>
+
+                        <!-- Stock -->
+                        <div class="admin-form-group">
+                            <label for="stock">Stock Quantity *</label>
+                            <input type="number" id="stock" name="stock" value="<%= product.stock %>" min="0" required>
+                        </div>
+
+                        <!-- Description -->
+                        <div class="admin-form-group full-width">
+                            <label for="description">Description</label>
+                            <textarea id="description" name="description"><%= product.description || '' %></textarea>
+                        </div>
+
+                        <!-- Current Image + Upload New -->
+                        <div class="admin-form-group full-width">
+                            <label>Current Image</label>
+                            <div class="img-preview-wrap">
+                                <img
+                                    id="current-img"
+                                    src="/<%= product.image %>"
+                                    alt="<%= product.name %>"
+                                    onerror="this.src='/product-1.png'"
+                                >
+                                <p>Current product image</p>
+                            </div>
+                            <br>
+                            <label for="image">Replace Image (optional)</label>
+                            <input type="file" id="image" name="image" accept="image/jpeg,image/jpg,image/png,image/webp">
+                            <div class="img-preview-wrap" id="new-img-wrap" style="display:none;">
+                                <img id="new-img-preview" src="" alt="New Preview">
+                                <p>New image preview</p>
+                            </div>
+                            <p style="font-size:0.78rem;color:#888;margin-top:6px;">Leave blank to keep the current image.</p>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn-save">💾 Update Product</button>
+                        <a href="/admin" class="btn-cancel">✕ Cancel</a>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </main>
+</div>
+
+<script>
+// ── New image preview ──────────────────────────
+document.getElementById('image').addEventListener('change', function () {
+    var file = this.files[0];
+    var wrap = document.getElementById('new-img-wrap');
+    var preview = document.getElementById('new-img-preview');
+    if (file) {
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            preview.src = e.target.result;
+            wrap.style.display = 'block';
+        };
+        reader.readAsDataURL(file);
+    } else {
+        wrap.style.display = 'none';
+    }
+});
+
+// ── Client-side validation ─────────────────────
+document.getElementById('edit-product-form').addEventListener('submit', function (e) {
+    var name     = document.getElementById('name').value.trim();
+    var price    = document.getElementById('price').value;
+    var category = document.getElementById('category').value;
+    var rating   = document.getElementById('rating').value;
+    var stock    = document.getElementById('stock').value;
+
+    if (!name || !price || !category || !rating || !stock) {
+        e.preventDefault();
+        alert('⚠️ Please fill in all required fields (marked with *).');
+        return false;
+    }
+    if (parseFloat(rating) < 0 || parseFloat(rating) > 5) {
+        e.preventDefault();
+        alert('⚠️ Rating must be between 0 and 5.');
+        return false;
+    }
+});
+</script>
+</body>
+</html>
