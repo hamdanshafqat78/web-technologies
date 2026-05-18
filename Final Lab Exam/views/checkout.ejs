@@ -2,7 +2,7 @@
 <%- include('partials/header', {
         activePage: 'checkout',
         pageTitle:  'RoyalTag — Checkout',
-        metaDesc:   'Complete your RoyalTag purchase.'
+        metaDesc:   'Complete your RoyalTag purchase securely.'
     }) %>
 
     <!-- ===== PAGE HEADER ===== -->
@@ -16,17 +16,25 @@
         <div class="cart-container">
             <div class="checkout-card">
                 <h2>🛒 Order Summary</h2>
-                <p style="color:#888; margin-bottom:24px;">Your cart items will appear here. This page is protected — only logged-in users can access it.</p>
 
+                <!-- Success / error feedback (shown after fetch) -->
+                <div id="order-feedback" style="display:none; margin-bottom:20px;"></div>
+
+                <!-- Cart items injected by JS -->
                 <div id="checkout-items-container"></div>
+
+                <!-- Summary + Place Order button (shown when cart has items) -->
                 <div class="cart-summary" id="checkout-summary" style="display:none;">
                     <div class="cart-total-row">
                         <span>Total</span>
                         <span id="checkout-total-price">$0.00</span>
                     </div>
-                    <button class="btn-primary" onclick="alert('Order placed successfully! Thank you, <%= currentUser.name %>!')">Place Order</button>
+                    <button class="btn-primary" id="place-order-btn" onclick="placeOrder()">
+                        ✅ Place Order
+                    </button>
                 </div>
 
+                <!-- Empty cart state -->
                 <div class="cart-empty" id="checkout-empty" style="display:none;">
                     <div class="cart-icon">🛒</div>
                     <h2>Your cart is empty</h2>
@@ -37,16 +45,37 @@
         </div>
     </section>
 
+    <style>
+        /* Feedback banners */
+        .feedback-success {
+            background: #dcfce7; color: #16a34a;
+            padding: 14px 20px; border-radius: 6px;
+            border-left: 4px solid #16a34a;
+            font-weight: 600; font-size: 0.95rem;
+        }
+        .feedback-error {
+            background: #fee2e2; color: #dc2626;
+            padding: 14px 20px; border-radius: 6px;
+            border-left: 4px solid #dc2626;
+            font-weight: 600; font-size: 0.95rem;
+        }
+        #place-order-btn:disabled {
+            opacity: 0.6; cursor: not-allowed;
+        }
+    </style>
+
     <script>
-    // Render checkout from localStorage cart
-    (function() {
-        var cart = JSON.parse(localStorage.getItem('royaltag_cart') || '[]');
+    /* ── Render cart items from localStorage ── */
+    var cart = JSON.parse(localStorage.getItem('royaltag_cart') || '[]');
+
+    (function renderCheckout() {
         var container = document.getElementById('checkout-items-container');
         var summary   = document.getElementById('checkout-summary');
         var empty     = document.getElementById('checkout-empty');
 
         if (cart.length === 0) {
-            empty.style.display = 'block';
+            empty.style.display   = 'block';
+            summary.style.display = 'none';
             return;
         }
 
@@ -54,11 +83,62 @@
         var html = '', total = 0;
         cart.forEach(function(item) {
             total += item.price * item.qty;
-            html += '<div class="cart-item"><span class="cart-item-name">' + item.name + ' &times;' + item.qty + '</span><span class="cart-item-price">$' + (item.price * item.qty).toFixed(2) + '</span></div>';
+            html += '<div class="cart-item">'
+                  +   '<span class="cart-item-name">' + item.name + ' &times;' + item.qty + '</span>'
+                  +   '<span class="cart-item-price">$' + (item.price * item.qty).toFixed(2) + '</span>'
+                  + '</div>';
         });
         container.innerHTML = html;
         document.getElementById('checkout-total-price').textContent = '$' + total.toFixed(2);
     })();
+
+    /* ── Place Order: POST cart to /place-order, server decrements stock ── */
+    function placeOrder() {
+        if (cart.length === 0) return;
+
+        var btn      = document.getElementById('place-order-btn');
+        var feedback = document.getElementById('order-feedback');
+
+        // Disable button to prevent double-submission
+        btn.disabled = true;
+        btn.textContent = '⏳ Processing…';
+
+        fetch('/place-order', {
+            method:  'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body:    JSON.stringify({ items: cart })
+        })
+        .then(function(res) { return res.json(); })
+        .then(function(data) {
+            if (data.success) {
+                // ✅ Success — clear cart, show banner, hide button
+                localStorage.removeItem('royaltag_cart');
+                cart = [];
+
+                document.getElementById('checkout-items-container').innerHTML = '';
+                document.getElementById('checkout-summary').style.display = 'none';
+
+                feedback.className   = 'feedback-success';
+                feedback.innerHTML   = '✅ ' + data.message
+                    + ' <a href="/products" style="color:#16a34a;font-weight:800;">Continue Shopping →</a>';
+                feedback.style.display = 'block';
+            } else {
+                // ❌ Server-side error
+                feedback.className     = 'feedback-error';
+                feedback.textContent   = '⚠️ ' + data.message;
+                feedback.style.display = 'block';
+                btn.disabled     = false;
+                btn.textContent  = '✅ Place Order';
+            }
+        })
+        .catch(function(err) {
+            feedback.className     = 'feedback-error';
+            feedback.textContent   = '⚠️ Network error. Please try again.';
+            feedback.style.display = 'block';
+            btn.disabled    = false;
+            btn.textContent = '✅ Place Order';
+        });
+    }
     </script>
 
 <%- include('partials/footer') %>

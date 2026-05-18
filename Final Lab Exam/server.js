@@ -16,6 +16,7 @@ const multer        = require('multer');
 const fs            = require('fs');
 const Product       = require('./models/Product');
 const User          = require('./models/User');
+const Order         = require('./models/Order');
 const { isLoggedIn, isAdmin } = require('./middleware/auth');
 const apiRoutes     = require('./routes/api');
 
@@ -290,6 +291,53 @@ app.get('/profile', isLoggedIn, async (req, res) => {
 /* ── Checkout (Protected — requires login) ── */
 app.get('/checkout', isLoggedIn, (req, res) => {
     res.render('checkout');
+});
+
+/* ── Place Order (Protected — session auth, decrements stock) ── */
+app.post('/place-order', isLoggedIn, async (req, res) => {
+    try {
+        const { items } = req.body;
+
+        // Validate incoming cart items
+        if (!items || !Array.isArray(items) || items.length === 0) {
+            return res.status(400).json({ success: false, message: 'Cart is empty.' });
+        }
+
+        // ── Decrement stock for every ordered item ──────────────
+        for (const item of items) {
+            if (!item.name || !item.qty || item.qty < 1) continue;
+
+            const product = await Product.findOne({ name: item.name });
+            if (!product) continue;
+
+            // Clamp: never go below 0
+            const newStock = Math.max(0, product.stock - item.qty);
+            await Product.findByIdAndUpdate(product._id, { stock: newStock });
+        }
+
+        // ── Calculate total server-side (never trust client) ────
+        const total = items.reduce((sum, i) => sum + (parseFloat(i.price) * parseInt(i.qty)), 0);
+
+        // ── Save Order to MongoDB ───────────────────────────────
+        await Order.create({
+            user:  req.session.user._id,
+            items: items.map(i => ({
+                name:  i.name,
+                price: parseFloat(i.price),
+                qty:   parseInt(i.qty)
+            })),
+            total
+        });
+
+        return res.status(200).json({
+            success: true,
+            message: `Order placed! Thank you, ${req.session.user.name}.`
+        });
+
+    } catch (err) {
+        console.error('Place Order Error:', err);
+        return res.status(500).json({ success: false, message: 'Server error. Please try again.' });
+    }
 });
 
 // ════════════════════════════════════════════════
