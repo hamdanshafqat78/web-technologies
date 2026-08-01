@@ -1,0 +1,42 @@
+
+<%- include('partials/header', {
+        activePage: 'cart',
+        pageTitle:  'RoyalTag — Cart',
+        metaDesc:   'Your RoyalTag shopping cart.'
+    }) %>
+
+    <!-- ===== PAGE HEADER ===== -->
+    <div class="page-header">
+        <h1>Shopping Cart</h1>
+        <p>Review your selected items</p>
+    </div>
+
+    <!-- ===== CART SECTION ===== -->
+    <section class="cart-section">
+        <div class="cart-container">
+
+            <!-- Cart items will be injected by JS -->
+            <div id="cart-items-container"></div>
+
+            <!-- Empty state (shown when cart is empty) -->
+            <div class="cart-empty" id="cart-empty-state">
+                <div class="cart-icon">🛒</div>
+                <h2>Your cart is empty</h2>
+                <p>Looks like you haven't added anything yet.</p>
+                <a href="/products" class="btn-primary">Start Shopping</a>
+            </div>
+
+            <!-- Cart summary (shown when items exist) -->
+            <div class="cart-summary" id="cart-summary" style="display:none;">
+                <div class="cart-total-row">
+                    <span>Total</span>
+                    <span id="cart-total-price">$0.00</span>
+                </div>
+                <a href="/products" class="btn-outline" style="margin-right:12px;">Continue Shopping</a>
+                <a href="/checkout" class="btn-primary">Proceed to Checkout</a>
+            </div>
+
+        </div>
+    </section>
+
+<%- include('partials/footer') %>

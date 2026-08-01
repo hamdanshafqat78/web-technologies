@@ -1,0 +1,201 @@
+
+<%- include('partials/header', {
+        activePage: 'products',
+        pageTitle:  'RoyalTag — Products',
+        metaDesc:   'Browse all RoyalTag products. Filter by category, price, and search by name.'
+    }) %>
+
+    <!-- ===== PAGE HEADER ===== -->
+    <div class="page-header">
+        <h1>All Products</h1>
+        <p>Showing <%= total %> item<%= total !== 1 ? 's' : '' %>
+            <% if (query.search)   { %>&nbsp;for "<strong><%= query.search %></strong>"<% } %>
+            <% if (query.category && query.category !== 'All') { %>&nbsp;in <strong><%= query.category %></strong><% } %>
+        </p>
+    </div>
+
+    <!-- ===== PRODUCTS LAYOUT ===== -->
+    <div class="products-layout">
+
+        <!-- ─── FILTER SIDEBAR ─── -->
+        <aside class="filter-sidebar" id="filter-sidebar">
+            <div class="filter-header">
+                <h2>Filters</h2>
+                <a href="/products" class="clear-btn" id="clear-filters-btn">Clear All</a>
+            </div>
+
+            <form id="filter-form" method="GET" action="/products">
+                <input type="hidden" name="page" value="1">
+
+                <!-- Search -->
+                <div class="filter-group">
+                    <label class="filter-label" for="search-input">Search</label>
+                    <div class="search-wrap">
+                        <input type="text" id="search-input" name="search" placeholder="Search products..." value="<%= query.search || '' %>" autocomplete="off">
+                        <button type="submit" class="search-btn" aria-label="Search">&#128269;</button>
+                    </div>
+                </div>
+
+                <!-- Category -->
+                <div class="filter-group">
+                    <label class="filter-label">Category</label>
+                    <ul class="cat-filter-list">
+                        <% categories.forEach(function(cat) { %>
+                        <li>
+                            <label class="cat-radio-label <% if((query.category || 'All') === cat){ %>active<% } %>">
+                                <input type="radio" name="category" value="<%= cat %>" <%= (query.category || 'All') === cat ? 'checked' : '' %> onchange="this.form.submit()">
+                                <%= cat %>
+                            </label>
+                        </li>
+                        <% }) %>
+                    </ul>
+                </div>
+
+                <!-- Price Range -->
+                <div class="filter-group">
+                    <label class="filter-label">Price Range</label>
+                    <div class="price-range-inputs">
+                        <input type="number" id="min-price" name="minPrice" placeholder="Min $" min="0" value="<%= query.minPrice || '' %>">
+                        <span class="price-sep">—</span>
+                        <input type="number" id="max-price" name="maxPrice" placeholder="Max $" min="0" value="<%= query.maxPrice || '' %>">
+                    </div>
+                    <button type="submit" class="apply-price-btn">Apply Price</button>
+                </div>
+
+                <!-- Sort -->
+                <div class="filter-group">
+                    <label class="filter-label" for="sort-select">Sort By</label>
+                    <select id="sort-select" name="sort" onchange="this.form.submit()">
+                        <option value="default"    <%= (!query.sort || query.sort==='default')   ? 'selected' : '' %>>Default</option>
+                        <option value="price_asc"  <%= query.sort==='price_asc'  ? 'selected' : '' %>>Price: Low → High</option>
+                        <option value="price_desc" <%= query.sort==='price_desc' ? 'selected' : '' %>>Price: High → Low</option>
+                        <option value="rating"     <%= query.sort==='rating'     ? 'selected' : '' %>>Top Rated</option>
+                        <option value="newest"     <%= query.sort==='newest'     ? 'selected' : '' %>>Newest First</option>
+                    </select>
+                </div>
+
+            </form>
+        </aside>
+
+        <!-- ─── MAIN CONTENT ─── -->
+        <main class="products-main">
+
+            <!-- Mobile Filter Toggle -->
+            <button class="mobile-filter-btn" id="mobile-filter-toggle" aria-expanded="false">
+                &#9776; Filters
+                <% if(query.search || (query.category && query.category !== 'All') || query.minPrice || query.maxPrice){ %>
+                <span class="filter-active-dot"></span>
+                <% } %>
+            </button>
+
+            <!-- Results Summary Bar -->
+            <div class="results-bar">
+                <span class="results-count">
+                    <% if(total === 0){ %>No products found<% } else { %>
+                    Showing
+                    <strong><%= ((page-1)*8)+1 %>&ndash;<%= Math.min(page*8, total) %></strong>
+                    of <strong><%= total %></strong>
+                    <% } %>
+                </span>
+            </div>
+
+            <!-- ─── PRODUCT GRID ─── -->
+            <% if(products.length === 0) { %>
+            <div class="empty-state">
+                <div class="empty-icon">🔍</div>
+                <h3>No Products Found</h3>
+                <p>Try adjusting your filters or search term.</p>
+                <a href="/products" class="btn-primary">Clear Filters</a>
+            </div>
+            <% } else { %>
+            <div class="products-grid">
+                <% products.forEach(function(product) { %>
+                <div class="product-card">
+                    <div class="product-img-wrap">
+                        <img src="/<%= product.image %>" alt="<%= product.name %>" class="product-img" loading="lazy">
+                        <span class="cat-badge cat-<%= product.category.toLowerCase() %>"><%= product.category %></span>
+                        <% if(product.stock === 0) { %>
+                        <span class="stock-overlay">Out of Stock</span>
+                        <% } %>
+                    </div>
+                    <div class="product-info">
+                        <h3><%= product.name %></h3>
+                        <p class="product-desc"><%= product.description %></p>
+                        <div class="product-meta">
+                            <span class="stars">
+                                <% for(let i = 1; i <= 5; i++) { %>
+                                    <% if(i <= Math.floor(product.rating)) { %><span class="star filled">★</span><% } else if(i - product.rating < 1 && i - product.rating > 0) { %><span class="star half">★</span><% } else { %><span class="star empty">☆</span><% } %>
+                                <% } %>
+                                <span class="rating-num">(<%= product.rating.toFixed(1) %>)</span>
+                            </span>
+                            <span class="stock-badge <%= product.stock === 0 ? 'out' : product.stock < 20 ? 'low' : 'in' %>">
+                                <% if(product.stock === 0){ %>Out of Stock<% } else if(product.stock < 20){ %>Low Stock<% } else { %>In Stock<% } %>
+                            </span>
+                        </div>
+                        <div class="product-footer">
+                            <span class="price">$<%= product.price.toFixed(2) %></span>
+                            <button class="btn-cart <%= product.stock === 0 ? 'disabled' : '' %>"
+                                <%= product.stock === 0 ? 'disabled' : '' %>
+                                onclick="addToCart('<%= product.name.replace(/'/g, "\\'") %>', <%= product.price %>)">
+                                <%= product.stock === 0 ? 'Unavailable' : 'Add to Cart' %>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <% }) %>
+            </div>
+
+            <!-- ─── PAGINATION ─── -->
+            <% if(totalPages > 1) { %>
+            <nav class="pagination" aria-label="Product pages">
+                <%
+                    var baseQuery = Object.keys(query)
+                        .filter(k => k !== 'page')
+                        .map(k => k + '=' + encodeURIComponent(query[k]))
+                        .join('&');
+                    var sep = baseQuery ? '&' : '';
+                %>
+
+                <% if(page > 1) { %>
+                <a href="/products?<%= baseQuery %><%= sep %>page=<%= page - 1 %>" class="page-btn prev-btn" aria-label="Previous page">&larr; Prev</a>
+                <% } else { %>
+                <span class="page-btn prev-btn disabled">&larr; Prev</span>
+                <% } %>
+
+                <%
+                    var startPage = Math.max(1, page - 2);
+                    var endPage   = Math.min(totalPages, page + 2);
+                %>
+
+                <% if(startPage > 1) { %>
+                <a href="/products?<%= baseQuery %><%= sep %>page=1" class="page-btn">1</a>
+                <% if(startPage > 2) { %><span class="page-ellipsis">&hellip;</span><% } %>
+                <% } %>
+
+                <% for(let p = startPage; p <= endPage; p++) { %>
+                <a href="/products?<%= baseQuery %><%= sep %>page=<%= p %>"
+                   class="page-btn <%= p === page ? 'active' : '' %>"
+                   aria-current="<%= p === page ? 'page' : 'false' %>">
+                    <%= p %>
+                </a>
+                <% } %>
+
+                <% if(endPage < totalPages) { %>
+                <% if(endPage < totalPages - 1) { %><span class="page-ellipsis">&hellip;</span><% } %>
+                <a href="/products?<%= baseQuery %><%= sep %>page=<%= totalPages %>" class="page-btn"><%= totalPages %></a>
+                <% } %>
+
+                <% if(page < totalPages) { %>
+                <a href="/products?<%= baseQuery %><%= sep %>page=<%= page + 1 %>" class="page-btn next-btn" aria-label="Next page">Next &rarr;</a>
+                <% } else { %>
+                <span class="page-btn next-btn disabled">Next &rarr;</span>
+                <% } %>
+
+            </nav>
+            <% } %>
+
+            <% } %>
+        </main>
+    </div>
+
+<%- include('partials/footer') %>

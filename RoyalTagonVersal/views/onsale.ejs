@@ -1,0 +1,247 @@
+
+<%- include('partials/header', {
+        activePage: 'onsale',
+        pageTitle:  'RoyalTag — On Sale',
+        metaDesc:   'Shop our best deals and discounted products at RoyalTag. Limited time offers!'
+    }) %>
+
+    <!-- ===== PAGE HEADER ===== -->
+    <div class="page-header">
+        <h1>🏷️ On Sale Products</h1>
+        <p>Exclusive deals &amp; limited-time offers — grab them before they&apos;re gone!</p>
+    </div>
+
+    <!-- ===== ON-SALE SECTION ===== -->
+    <section class="onsale-section">
+        <div class="onsale-container">
+
+            <% if (onsaleProducts.length === 0) { %>
+            <!-- Empty State -->
+            <div class="empty-state">
+                <div class="empty-icon">🏷️</div>
+                <h3>No On-Sale Products Right Now</h3>
+                <p>Check back soon for new deals and promotions.</p>
+                <a href="/products" class="btn-primary">Browse All Products</a>
+            </div>
+            <% } else { %>
+
+            <!-- Results info bar -->
+            <div class="onsale-info-bar">
+                <span class="onsale-count-label">
+                    <strong><%= onsaleProducts.length %></strong>
+                    deal<%= onsaleProducts.length !== 1 ? 's' : '' %> available
+                </span>
+                <span class="onsale-page-size-note">Showing 10 per page</span>
+            </div>
+
+            <!-- ── PRODUCT LIST — all cards rendered by EJS into the DOM,
+                    jQuery hides/shows them in chunks of 10. No API calls. ── -->
+            <div id="product-list">
+                <% onsaleProducts.forEach(function(product) { %>
+                <div class="product-card onsale-card">
+
+                    <div class="product-img-wrap">
+                        <img
+                            src="/<%= product.image %>"
+                            alt="<%= product.name %>"
+                            class="product-img"
+                            loading="lazy"
+                            onerror="this.src='/images/product-1.png'"
+                        >
+                        <!-- Category badge -->
+                        <span class="cat-badge cat-<%= product.category.toLowerCase() %>">
+                            <%= product.category %>
+                        </span>
+                        <!-- Sale ribbon (top-right) -->
+                        <span class="sale-ribbon">🏷️ SALE</span>
+                        <% if(product.stock === 0) { %>
+                        <span class="stock-overlay">Out of Stock</span>
+                        <% } %>
+                    </div>
+
+                    <div class="product-info">
+                        <h3><%= product.name %></h3>
+                        <p class="product-desc"><%= product.description %></p>
+
+                        <div class="product-meta">
+                            <!-- Star rating -->
+                            <span class="stars">
+                                <% for(let i = 1; i <= 5; i++) { %>
+                                    <% if(i <= Math.floor(product.rating)) { %>
+                                        <span class="star filled">★</span>
+                                    <% } else if(i - product.rating < 1 && i - product.rating > 0) { %>
+                                        <span class="star half">★</span>
+                                    <% } else { %>
+                                        <span class="star empty">☆</span>
+                                    <% } %>
+                                <% } %>
+                                <span class="rating-num">(<%= product.rating.toFixed(1) %>)</span>
+                            </span>
+                            <!-- Stock badge -->
+                            <span class="stock-badge <%= product.stock === 0 ? 'out' : product.stock < 20 ? 'low' : 'in' %>">
+                                <% if(product.stock === 0){ %>Out of Stock
+                                <% } else if(product.stock < 20){ %>Low Stock
+                                <% } else { %>In Stock<% } %>
+                            </span>
+                        </div>
+
+                        <div class="product-footer">
+                            <span class="price">$<%= product.price.toFixed(2) %></span>
+                            <button
+                                class="btn-cart <%= product.stock === 0 ? 'disabled' : '' %>"
+                                <%= product.stock === 0 ? 'disabled' : '' %>
+                                onclick="addToCart('<%= product.name.replace(/'/g, "\\'") %>', <%= product.price %>)"
+                            >
+                                <%= product.stock === 0 ? 'Unavailable' : 'Add to Cart' %>
+                            </button>
+                        </div>
+                    </div>
+
+                </div><!-- /.onsale-card -->
+                <% }) %>
+            </div><!-- /#product-list -->
+
+            <!-- ── PAGINATION CONTROLS ── -->
+            <div id="pagination-controls">
+                <button id="prev-btn" class="page-nav-btn" disabled>&larr; Previous</button>
+                <span id="page-indicator">Page 1 of 1</span>
+                <button id="next-btn" class="page-nav-btn">Next &rarr;</button>
+            </div>
+
+            <% } %>
+        </div>
+    </section>
+
+    <!-- ── On-Sale page specific styles ── -->
+    <style>
+        .onsale-section  { max-width: 1280px; margin: 0 auto; padding: 40px 24px 70px; }
+        .onsale-container { width: 100%; }
+
+        /* Info bar */
+        .onsale-info-bar {
+            display: flex; align-items: center; justify-content: space-between;
+            margin-bottom: 28px; padding-bottom: 14px;
+            border-bottom: 2px solid #f0ede4; flex-wrap: wrap; gap: 8px;
+        }
+        .onsale-count-label { font-size: 0.95rem; color: #555; }
+        .onsale-count-label strong { color: #1a1a2e; }
+        .onsale-page-size-note { font-size: 0.82rem; color: #888; }
+
+        /* Product grid — 4 columns desktop */
+        #product-list {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+            margin-bottom: 40px;
+        }
+        @media (max-width: 1100px) { #product-list { grid-template-columns: repeat(3, 1fr); } }
+        @media (max-width: 768px)  { #product-list { grid-template-columns: repeat(2, 1fr); gap: 16px; } }
+        @media (max-width: 480px)  { #product-list { grid-template-columns: 1fr; } }
+
+        /* Red SALE ribbon badge */
+        .sale-ribbon {
+            position: absolute; top: 12px; right: 12px;
+            background: #dc2626; color: #fff;
+            font-size: 0.68rem; font-weight: 800;
+            letter-spacing: 1px; text-transform: uppercase;
+            padding: 4px 10px; border-radius: 20px;
+        }
+
+        /* Pagination bar */
+        #pagination-controls {
+            display: flex; align-items: center; justify-content: center;
+            gap: 28px; margin-top: 12px;
+            padding-top: 32px; border-top: 2px solid #f0ede4;
+        }
+        .page-nav-btn {
+            background: #1a1a2e; color: #e8b86d;
+            border: 2px solid #1a1a2e;
+            padding: 12px 36px; font-size: 0.92rem; font-weight: 700;
+            letter-spacing: 0.8px; border-radius: 3px; cursor: pointer;
+            transition: background 0.25s, color 0.25s, opacity 0.25s;
+        }
+        .page-nav-btn:hover:not(:disabled) {
+            background: #e8b86d; color: #1a1a2e; border-color: #e8b86d;
+        }
+        .page-nav-btn:disabled {
+            opacity: 0.35; cursor: not-allowed;
+            background: #ccc; color: #fff; border-color: #ccc;
+        }
+        #page-indicator {
+            font-size: 1rem; font-weight: 700; color: #1a1a2e;
+            min-width: 130px; text-align: center;
+        }
+    </style>
+
+    <!-- ── jQuery CDN ── -->
+    <script
+        src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+        crossorigin="anonymous">
+    </script>
+
+    <!-- ════════════════════════════════════════════════
+         JQUERY PAGINATION — pure client-side, zero API calls
+         ════════════════════════════════════════════════ -->
+    <script>
+    $(document).ready(function () {
+
+        /* ── Config ── */
+        var ITEMS_PER_PAGE = 10;
+        var currentPage    = 1;
+
+        /* ── Grab all rendered product cards ── */
+        var $cards     = $('.onsale-card');
+        var totalItems = $cards.length;
+        var totalPages = Math.ceil(totalItems / ITEMS_PER_PAGE) || 1;
+
+        /* ── Update the "Page X of Y" text ── */
+        function updateIndicator() {
+            $('#page-indicator').text('Page ' + currentPage + ' of ' + totalPages);
+        }
+
+        /* ── Hide all cards; reveal only the slice for the given page ── */
+        function showPage(page) {
+            var start = (page - 1) * ITEMS_PER_PAGE;   // page 1 → 0, page 2 → 10 …
+            var end   = start + ITEMS_PER_PAGE;          // page 1 → 10, page 2 → 20 …
+
+            $cards.hide();                    // hide ALL cards first
+            $cards.slice(start, end).show();  // reveal only this page's 10
+
+            // Disable Prev on first page, Next on last page
+            $('#prev-btn').prop('disabled', page === 1);
+            $('#next-btn').prop('disabled', page === totalPages);
+
+            updateIndicator();
+        }
+
+        /* ── Initial render: show page 1 ── */
+        showPage(1);
+
+        /* ── NEXT button ── */
+        $('#next-btn').on('click', function () {
+            if (currentPage < totalPages) {
+                currentPage++;
+                showPage(currentPage);
+                // Smooth-scroll back up to the product list
+                $('html, body').animate({
+                    scrollTop: $('#product-list').offset().top - 100
+                }, 300);
+            }
+        });
+
+        /* ── PREVIOUS button ── */
+        $('#prev-btn').on('click', function () {
+            if (currentPage > 1) {
+                currentPage--;
+                showPage(currentPage);
+                $('html, body').animate({
+                    scrollTop: $('#product-list').offset().top - 100
+                }, 300);
+            }
+        });
+
+    }); // end ready
+    </script>
+
+<%- include('partials/footer') %>
