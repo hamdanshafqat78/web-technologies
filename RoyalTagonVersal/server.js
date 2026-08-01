@@ -22,7 +22,7 @@ const apiRoutes     = require('./routes/api');
 
 const app  = express();
 const PORT = process.env.PORT || 3000;
-const MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost:27017/royaltag_lab4';
+const MONGO_URI = process.env.MONGODB_URI || process.env.MONGO_URI || 'mongodb://localhost:27017/royaltag_lab4';
 
 // ── View Engine ──────────────────────────────────
 app.set('view engine', 'ejs');

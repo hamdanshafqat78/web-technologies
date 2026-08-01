@@ -10,7 +10,7 @@ const mongoose = require('mongoose');
 const Product  = require('./models/Product');
 const User     = require('./models/User');
 
-const MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost:27017/royaltag_lab4';
+const MONGO_URI = process.env.MONGODB_URI || process.env.MONGO_URI || 'mongodb://localhost:27017/royaltag_lab4';
 
 const products = [
     // ── FASHION (8) ────────────────────────────────
